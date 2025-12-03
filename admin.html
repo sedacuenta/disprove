@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Admin - Disprove</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #121212;
+        color: #f1f1f1;
+        margin: 0;
+        padding: 0 20px;
+    }
+    h1, h2 {
+        text-align: center;
+        margin-top: 20px;
+    }
+    #loginAdmin, #panel { max-width: 800px; margin: auto; }
+    #loginAdmin { display:flex; flex-direction:column; gap:15px; margin-top:50px; }
+    input { padding:10px; border-radius:5px; border:none; width:100%; }
+    button { padding:10px 15px; border:none; border-radius:5px; cursor:pointer; background:#ff5722; color:#fff; font-weight:bold; }
+    table { width:100%; border-collapse: collapse; margin-top:20px; }
+    th, td { border:1px solid #444; padding:10px; text-align:center; }
+    tr:hover { background:#222; }
+    .btn-small { padding:5px 8px; font-size:0.9rem; background:#2196f3; }
+    .btn-delete { background:#e53935; }
+    /* Modal */
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; }
+    .modal-content { background:#222; padding:20px; border-radius:8px; width:300px; text-align:center; }
+    .modal-content input { margin-bottom:15px; }
+    .close { float:right; cursor:pointer; color:#fff; font-weight:bold; }
+</style>
+</head>
+<body>
+
+<h1>Panel de Administrador</h1>
+
+<div id="loginAdmin">
+    <input id="admin_email" type="email" placeholder="Admin email">
+    <input id="admin_pass" type="password" placeholder="Admin password">
+    <button onclick="adminLogin()">Entrar</button>
+</div>
+
+<div id="panel" style="display:none;">
+    <h2>Usuarios registrados</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="usuarios"></tbody>
+    </table>
+</div>
+
+<!-- Modal cambiar contraseña -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h3>Cambiar contraseña</h3>
+        <input id="new_pass" type="password" placeholder="Nueva contraseña">
+        <button onclick="guardarNuevaPass()">Guardar</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey:"AIzaSyC5urY-iP2m4Eqi9c3WcvjrfHMDnxwD7ic",
+    authDomain:"disprove-afcb8.firebaseapp.com",
+    projectId:"disprove-afcb8",
+    storageBucket:"disprove-afcb8.firebasestorage.app",
+    messagingSenderId:"721347672126",
+    appId:"1:721347672126:web:d37be05d262bceb27ef96f"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Admin autorizado
+const SUPER_ADMIN = {
+    email: "TU_CORREO_ADMIN_AQUI",
+    pass_hash: bcrypt.hashSync("TU_CONTRASEÑA_ADMIN",10)
+};
+
+let usuarioSeleccionado = null;
+
+function adminLogin(){
+    const email = document.getElementById("admin_email").value;
+    const pass = document.getElementById("admin_pass").value;
+
+    if(email===SUPER_ADMIN.email && bcrypt.compareSync(pass,SUPER_ADMIN.pass_hash)){
+        document.getElementById("loginAdmin").style.display="none";
+        document.getElementById("panel").style.display="block";
+        cargarUsuarios();
+    } else alert("No autorizado");
+}
+
+async function cargarUsuarios(){
+    const tabla = document.getElementById("usuarios");
+    tabla.innerHTML = "";
+
+    const snapshot = await db.collection("usuarios").get();
+    snapshot.forEach(doc=>{
+        const u = doc.data();
+        tabla.innerHTML += `
+            <tr>
+                <td>${u.email}</td>
+                <td>${u.nombre}</td>
+                <td>
+                    <button class="btn-small" onclick="abrirModal('${u.email}')">Cambiar contraseña</button>
+                    <button class="btn-delete btn-small" onclick="eliminarUsuario('${u.email}')">Eliminar</button>
+                </td>
+            </tr>`;
+    });
+}
+
+async function eliminarUsuario(email){
+    if(confirm("¿Eliminar usuario "+email+"?")){
+        await db.collection("usuarios").doc(email).delete();
+        cargarUsuarios();
+    }
+}
+
+// Modal cambiar contraseña
+function abrirModal(email){
+    usuarioSeleccionado = email;
+    document.getElementById("modal").style.display="flex";
+}
+function cerrarModal(){
+    usuarioSeleccionado = null;
+    document.getElementById("new_pass").value = "";
+    document.getElementById("modal").style.display="none";
+}
+
+async function guardarNuevaPass(){
+    const nueva = document.getElementById("new_pass").value;
+    if(!nueva){ alert("Introduce la nueva contraseña"); return; }
+    const hash = bcrypt.hashSync(nueva,10);
+    await db.collection("usuarios").doc(usuarioSeleccionado).update({ pass: hash });
+    alert("Contraseña cambiada ✔");
+    cerrarModal();
+}
+</script>
+</body>
+</html>
