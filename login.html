@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disprove - Log In</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <h1><a href="/">Dis-prove</a></h1>
@@ -21,5 +23,37 @@
         <input id="contrasenya-login" type="password" placeholder="Contraseña">
         <button id="btn-login">Login</button>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5urY-iP2m4Eqi9c3WcvjrfHMDnxwD7ic",
+            authDomain: "disprove-afcb8.firebaseapp.com",
+            projectId: "disprove-afcb8",
+            storageBucket: "disprove-afcb8.firebasestorage.app",
+            messagingSenderId: "721347672126",
+            appId: "1:721347672126:web:d37be05d262bceb27ef96f"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        document.getElementById("btn-login").addEventListener("click", async () => {
+            const email = document.getElementById("email-login").value;
+            const pass = document.getElementById("contrasenya-login").value;
+
+            const user = await db.collection("usuarios").doc(email).get();
+
+            if (user.exists && user.data().pass === pass) {
+                alert("Login exitoso desde cualquier dispositivo");
+            } else {
+                alert("Credenciales incorrectas");
+            }
+        });
+
+    </script>
+
 </body>
+
 </html>
