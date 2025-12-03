@@ -54,6 +54,12 @@ section h2 {
     margin-bottom: 25px;
 }
 
+a {
+    text-decoration: none;
+    cursor:pointer;
+    color:#00bcd4;
+}
+
 /* CARDS */
 
 .card-container {
