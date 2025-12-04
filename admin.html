@@ -83,10 +83,13 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 /* ==================== ADMIN ==================== */
-const SUPER_ADMIN = {
+let SUPER_ADMIN = {
     email: "shunlai.chen@disproveweb.com",
-    pass_hash: bcrypt.hashSync("Cuenta3434", 10)
+    pass_hash: null // inicialmente null
 };
+
+// Cuando bcrypt ya existe, generar el hash
+SUPER_ADMIN.pass_hash = bcrypt.hashSync("Cuenta3434", 10);
 
 let usuarioSeleccionado = null;
 
