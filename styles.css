@@ -35,9 +35,10 @@ header p {
     font-weight: bold;
     text-decoration: none;
     transition: 0.3s;
+    border:none;
 }
 
-.btn:hover {
+.btn:hover, #btn-login:hover, #btn-register:hover, .credentials button:hover {
     background: #eaf2ff;
 }
 
@@ -97,7 +98,7 @@ footer {
     margin-top: 50px;
 }
 
-/* BUTTONS */
+/* OTHERS */
 
 #admin-btn {
     padding: 10px;
@@ -109,4 +110,26 @@ footer {
     background-color:#efbf00;
     cursor:pointer;
     color: #000
+}
+
+input {
+    background: white;
+    color: #0066ff;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+    border:none;
+    margin: 5px;
+}
+
+input:hover {
+    box-shadow: 0 0 8px #00bcd4;
+}
+
+.login, .register {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
 }
