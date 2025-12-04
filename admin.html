@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Disprove</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=stars" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=stars" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -121,7 +122,8 @@
             <button onclick="window.location.href='/login.html'">Login</button>
             <button onclick="window.location.href='/register.html'">Register</button>
         </div>
-        <button id="admin-btn" onclick="window.location.href='/admin.html'"><span class="material-symbols-outlined">stars</span></button>
+        <button id="admin-btn" onclick="window.location.href='/admin.html'"><span
+                class="material-symbols-outlined">stars</span></button>
     </header>
 
     <h1>Panel de Administrador</h1>
@@ -160,7 +162,10 @@
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"></script>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
         const firebaseConfig = {
             apiKey: "AIzaSyC5urY-iP2m4Eqi9c3WcvjrfHMDnxwD7ic",
             authDomain: "disprove-afcb8.firebaseapp.com",
@@ -169,8 +174,9 @@
             messagingSenderId: "721347672126",
             appId: "1:721347672126:web:d37be05d262bceb27ef96f"
         };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
         // Admin autorizado
         const SUPER_ADMIN = {
