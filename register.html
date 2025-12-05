@@ -26,75 +26,48 @@
         <button id="logout-btn" style="display:none;">Cerrar sesión</button>
     </header>
 
-    <h2>Registro</h2>
-
     <div class="register">
+        <h2>Registro</h2>
         <input id="nombre_register" type="text" placeholder="Nombre">
         <input id="email-register" type="email" placeholder="Email">
         <input id="contrasenya-register" type="password" placeholder="Contraseña">
         <button id="btn-register">Registrarse</button>
     </div>
 
-    <!-- bcrypt global -->
-    <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+   <!-- Importar bcrypt antes del script module -->
+<script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC5urY-iP2m4Eqi9c3WcvjrfHMDnxwD7ic",
-            authDomain: "disprove-afcb8.firebaseapp.com",
-            projectId: "disprove-afcb8",
-            storageBucket: "disprove-afcb8.firebasestorage.app",
-            messagingSenderId: "721347672126",
-            appId: "1:721347672126:web:d37be05d262bceb27ef96f"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5urY-iP2m4Eqi9c3WcvjrfHMDnxwD7ic",
+        authDomain: "disprove-afcb8.firebaseapp.com",
+        projectId: "disprove-afcb8",
+        storageBucket: "disprove-afcb8.firebasestorage.app",
+        messagingSenderId: "721347672126",
+        appId: "1:721347672126:web:d37be05d262bceb27ef96f"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        document.getElementById("btn-register").addEventListener("click", async () => {
-            const nombre = document.getElementById("nombre_register").value.trim();
-            const email = document.getElementById("email-register").value.trim();
-            const pass = document.getElementById("contrasenya-register").value.trim();
+    document.getElementById("btn-register").addEventListener("click", async () => {
+        const email = document.getElementById("email-register").value.trim();
+        const pass = document.getElementById("contrasenya-register").value.trim();
 
-            if (!nombre || !email || !pass) return alert("❗ Rellena todos los campos");
+        if (!email || !pass) return alert("⚠ Completa todos los campos");
 
-            const hash = window.bcrypt.hashSync(pass, 10);
+        const hash = bcrypt.hashSync(pass, 10); // 🔥 ya no dará error
 
-            await setDoc(doc(db, "usuarios", email), { nombre, email, pass: hash });
+        await setDoc(doc(db, "usuarios", email), { pass: hash });
 
-            alert("✔ Cuenta creada");
-            localStorage.setItem("usuario", email);  // 🔥 sesión activa tras registrar
-            location.href = "/";
-        });
-
-        // Guardar sesión si el login es correcto
-        if (bcrypt.compareSync(pass, hash)) {
-            alert("✔ Inicio de sesión correcto");
-            localStorage.setItem("usuario", email);
-            location.reload(); // Recarga y aplica cambios de UI
-        }
-        else alert("❌ Contraseña incorrecta");
-
-        // 🔥 Control de interfaz según sesión
-        window.addEventListener("DOMContentLoaded", () => {
-            const usuario = localStorage.getItem("usuario");
-
-            if (usuario) {
-                document.getElementById("credentials-box").style.display = "none";
-                document.getElementById("logout-btn").style.display = "inline-block";
-            }
-        });
-
-        // 🔥 Cerrar sesión
-        document.getElementById("logout-btn").addEventListener("click", () => {
-            localStorage.removeItem("usuario");
-            location.reload(); // Vuelve a mostrar Login/Register
-        });
-
-    </script>
+        alert("✔ Cuenta creada con éxito");
+        localStorage.setItem("usuario", email);
+        location.href = "/"; // redirigir a home o login
+    });
+</script>
 
 </body>
 
