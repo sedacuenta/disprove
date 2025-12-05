@@ -200,6 +200,79 @@ video {
     margin: 5px;
 }
 
+/* FORMULARIO DE CONTACTO */
+
+#contact {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    animation: moverTexto 0.5s ease-in-out;
+}
+
+#contact p {
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1.05rem;
+}
+
+#contact form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Inputs & textarea con tu mismo estilo */
+#contact input,
+#contact textarea {
+    width: 100%;
+    max-width: 650px;
+    background: white;
+    color: #0066ff;
+    padding: 14px 20px;
+    border-radius: 30px;
+    border: none;
+    font-size: 1rem;
+    transition: 0.3s;
+    outline: none;
+}
+
+#contact textarea {
+    height: 140px;
+    border-radius: 18px;
+    resize: none;
+}
+
+/* Efecto hover & focus */
+#contact input:hover,
+#contact textarea:hover,
+#contact input:focus,
+#contact textarea:focus {
+    box-shadow: 0 0 10px #00bcd4;
+}
+
+/* Botón */
+#contact button {
+    background: #0066ff;
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 30px;
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#contact button:hover {
+    background: #00bcd4;
+    color: white;
+    transform: translateY(-3px);
+}
+
+
 @keyframes moverTexto {
     from {
         transform: translateX(-900px)
