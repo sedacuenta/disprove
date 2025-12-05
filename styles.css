@@ -15,6 +15,18 @@ body {
     color:lightblue;
 }
 
+::-webkit-scrollbar {
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: lightblue
+}
+
+::-webkit-scrollbar-track {
+    background-color: lightgreen;
+}
+
 /* ENCABEZADO HERO */
 
 header {
