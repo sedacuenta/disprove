@@ -37,7 +37,7 @@ header p {
     margin-bottom: 20px;
 }
 
-#tittle_h1, #tittle_p {
+#title_h1, #title_p {
     animation: moverTexto 1.2s ease-in-out;
 }
 
