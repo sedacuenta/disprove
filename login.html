@@ -11,64 +11,98 @@
 
 <body>
 
-<header>
-    <h1><a href="/" class="a_title">Dis-prove</a></h1>
-    <p>Porque la tecnología es para todos</p>
+    <header>
+        <h1><a href="/" class="a_title">Dis-prove</a></h1>
+        <p>Porque la tecnología es para todos</p>
+        <div class="credentials" id="credentials-box">
+            <button onclick="window.location.href='/login.html'">Login</button>
+            <button onclick="window.location.href='/register.html'">Register</button>
+        </div>
+        <button id="admin-btn" onclick="window.location.href='/admin.html'">
+            <span class="material-symbols-outlined">stars</span>
+        </button>
+        <button id="logout-btn" style="display:none;">Cerrar sesión</button>
+    </header>
 
-    <div class="credentials">
-        <button onclick="location.href='/login.html'">Login</button>
-        <button onclick="location.href='/register.html'">Register</button>
+    <div class="login">
+        <input id="email-login" type="email" placeholder="Email">
+        <input id="contrasenya-login" type="password" placeholder="Contraseña">
+        <button id="btn-login">Iniciar Sesión</button>
     </div>
 
-    <button id="admin-btn" onclick="location.href='/admin.html'">
-        <span class="material-symbols-outlined">stars</span>
-    </button>
-</header>
+    <!-- bcrypt normal -->
+    <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
 
-<div class="login">
-    <input id="email-login" type="email" placeholder="Email">
-    <input id="contrasenya-login" type="password" placeholder="Contraseña">
-    <button id="btn-login">Iniciar Sesión</button>
-</div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-<!-- bcrypt normal -->
-<script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5urY-iP2m4Eqi9c3WcvjrfHMDnxwD7ic",
+            authDomain: "disprove-afcb8.firebaseapp.com",
+            projectId: "disprove-afcb8",
+            storageBucket: "disprove-afcb8.firebasestorage.app",
+            messagingSenderId: "721347672126",
+            appId: "1:721347672126:web:d37be05d262bceb27ef96f"
+        };
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-const firebaseConfig = {
-    apiKey: "AIzaSyC5urY-iP2m4Eqi9c3WcvjrfHMDnxwD7ic",
-    authDomain: "disprove-afcb8.firebaseapp.com",
-    projectId: "disprove-afcb8",
-    storageBucket: "disprove-afcb8.firebasestorage.app",
-    messagingSenderId: "721347672126",
-    appId: "1:721347672126:web:d37be05d262bceb27ef96f"
-};
+        // 🔥 Si hay sesión activa, no tiene sentido mostrar login
+        if (localStorage.getItem("usuario")) {
+            location.href = "/"; // redirige a inicio
+        }
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+        // LOGIN
+        document.getElementById("btn-login").addEventListener("click", async () => {
+            const email = document.getElementById("email-login").value.trim();
+            const pass = document.getElementById("contrasenya-login").value.trim();
 
-document.getElementById("btn-login").addEventListener("click", async () => {
-    const email = document.getElementById("email-login").value.trim();
-    const pass = document.getElementById("contrasenya-login").value.trim();
+            const ref = doc(db, "usuarios", email);
+            const user = await getDoc(ref);
 
-    const ref = doc(db, "usuarios", email);
-    const user = await getDoc(ref);
+            if (!user.exists()) return alert("❌ Usuario no encontrado");
 
-    if (!user.exists()) 
-        return alert("❌ Usuario no encontrado");
+            const hash = user.data().pass;
 
-    const hash = user.data().pass;
+            if (window.bcrypt.compareSync(pass, hash)) {
+                alert("✔ Sesión iniciada");
+                // 🟢 Guardamos sesión local
+                localStorage.setItem("usuario", email);
+                location.href = "/";
+            } else {
+                alert("❌ Contraseña incorrecta");
+            }
+        });
 
-    // 👇 SE ARREGLA AQUÍ
-    if (window.bcrypt.compareSync(pass, hash)) 
-        alert("✔ Inicio de sesión correcto");
-    else 
-        alert("❌ Contraseña incorrecta");
-});
-</script>
+        // Guardar sesión si el login es correcto
+        if (bcrypt.compareSync(pass, hash)) {
+            alert("✔ Inicio de sesión correcto");
+            localStorage.setItem("usuario", email);
+            location.reload(); // Recarga y aplica cambios de UI
+        }
+        else alert("❌ Contraseña incorrecta");
+
+        // 🔥 Control de interfaz según sesión
+        window.addEventListener("DOMContentLoaded", () => {
+            const usuario = localStorage.getItem("usuario");
+
+            if (usuario) {
+                document.getElementById("credentials-box").style.display = "none";
+                document.getElementById("logout-btn").style.display = "inline-block";
+            }
+        });
+
+        // 🔥 Cerrar sesión
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            localStorage.removeItem("usuario");
+            location.reload(); // Vuelve a mostrar Login/Register
+        });
+
+    </script>
+
 
 </body>
+
 </html>
