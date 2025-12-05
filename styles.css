@@ -37,12 +37,16 @@ header p {
 }
 
 #title_h1 {
-    animation: moverTexto 1.4s ease-in-out;
+    animation: moverTexto 1.6s ease-in-out;
     color: #ffffff;
 }
 
 #title_p {
     animation: moverTexto 1.2s ease-in-out;
+}
+
+.a_title {
+    color: #ffffff;
 }
 
 img {
@@ -168,7 +172,7 @@ input:hover {
 
 @keyframes moverTexto {
     from {
-        transform: translateX(-200px)
+        transform: translateX(-900px)
     }
     to {
         transform: translateX(0)
