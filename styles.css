@@ -26,6 +26,7 @@ body {
 
 ::-webkit-scrollbar-track {
     background-color: lightgreen;
+    border-radius: 10px;
 }
 
 /* ENCABEZADO HERO */
