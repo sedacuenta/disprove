@@ -29,11 +29,13 @@ header h1 {
     font-size: 3rem;
     margin: 0;
     letter-spacing: 1px;
+    animation: moverTexto 1.2s ease-in-out;
 }
 
 header p {
     font-size: 1.2rem;
     margin-bottom: 20px;
+    animation: moverTexto 1.2s ease-in-out;
 }
 
 .btn, #btn-login, #btn-register, .credentials button {
@@ -150,4 +152,13 @@ input:hover {
     width: 100%;
     color: #ffffff;
     height: 500px;
+}
+
+@keyframes moverTexto {
+    from {
+        transform: translateX(-200)
+    }
+    to {
+        transform: translateX(0)
+    }
 }
