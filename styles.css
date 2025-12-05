@@ -173,10 +173,11 @@ input:hover {
     width: 100%;
     color: #ffffff;
     height: 500px;
+    padding: 10px;
 }
 
 #video_title {
-    margin: 10px;
+    margin: 15px;
     font-size: 25px;
 }
 
