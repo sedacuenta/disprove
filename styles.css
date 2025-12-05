@@ -29,7 +29,6 @@ header h1 {
     font-size: 3rem;
     margin: 0;
     letter-spacing: 1px;
-    color: #fff;
 }
 
 header p {
@@ -37,7 +36,12 @@ header p {
     margin-bottom: 20px;
 }
 
-#title_h1, #title_p {
+#title_h1 {
+    animation: moverTexto 1.4s ease-in-out;
+    color: #ffffff;
+}
+
+#title_p {
     animation: moverTexto 1.2s ease-in-out;
 }
 
