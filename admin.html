@@ -63,15 +63,14 @@ tr:hover{background:#222;}
     </div>
 </div>
 
-<!-- Librerías -->
-<script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
 
-    // Config Firebase
+    // ================= FIREBASE =================
     const firebaseConfig = {
         apiKey: "AIzaSyC5urY-iP2m4Eqi9c3WcvjrfHMDnxwD7ic",
         authDomain: "disprove-afcb8.firebaseapp.com",
@@ -83,10 +82,10 @@ window.addEventListener('DOMContentLoaded', () => {
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Admin
+    // ================= ADMIN LOGIN SIN HASH =================
     const SUPER_ADMIN = {
         email: "shunlai.chen@disproveweb.com",
-        pass_hash: bcrypt.hashSync("Cuenta3434", 10)
+        pass_plain: "Cuenta3434" // ← contraseña en texto plano temporal
     };
 
     let usuarioSeleccionado = null;
@@ -96,7 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById("admin_email").value.trim();
         const pass = document.getElementById("admin_pass").value.trim();
 
-        if(email === SUPER_ADMIN.email && bcrypt.compareSync(pass, SUPER_ADMIN.pass_hash)) {
+        if(email === SUPER_ADMIN.email && pass === SUPER_ADMIN.pass_plain) {
             document.getElementById("loginAdmin").style.display = "none";
             document.getElementById("panel").style.display = "block";
             cargarUsuarios();
@@ -105,7 +104,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // CARGAR USUARIOS
+    // ================= LISTAR USUARIOS =================
     async function cargarUsuarios() {
         const tabla = document.getElementById("usuarios");
         tabla.innerHTML = "";
@@ -127,13 +126,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // ELIMINAR USUARIO
     window.eliminarUsuario = async function(email) {
-        if(confirm("Eliminar usuario " + email + " ?")) {
+        if(confirm(`¿Eliminar usuario ${email}?`)) {
             await db.collection("usuarios").doc(email).delete();
             cargarUsuarios();
         }
     }
 
-    // MODAL CAMBIAR CONTRASEÑA
+    // ================= EDITAR CONTRASEÑA =================
     window.abrirModal = function(email) {
         usuarioSeleccionado = email;
         document.getElementById("modal").style.display = "flex";
@@ -145,9 +144,9 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     document.getElementById("btn-guardar-pass").addEventListener("click", async () => {
         const nueva = document.getElementById("new_pass").value.trim();
-        if(!nueva) { alert("Introduce la nueva contraseña"); return; }
-        const hash = bcrypt.hashSync(nueva, 10);
-        await db.collection("usuarios").doc(usuarioSeleccionado).update({ pass: hash });
+        if(!nueva){ alert("Introduce la nueva contraseña"); return; }
+        
+        await db.collection("usuarios").doc(usuarioSeleccionado).update({ pass: nueva });
         alert("Contraseña actualizada ✔");
         cerrarModal();
     });
