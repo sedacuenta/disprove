@@ -40,6 +40,7 @@ header p {
     text-decoration: none;
     transition: 0.3s;
     border:none;
+    cursor: pointer;
 }
 
 .btn:hover, #btn-login:hover, #btn-register:hover, .credentials button:hover {
