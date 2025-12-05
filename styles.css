@@ -9,6 +9,11 @@ body {
     color: #333;
 }
 
+::selection {
+    background:lightblue;
+    color:lightgreen;
+}
+
 /* ENCABEZADO HERO */
 
 header {
