@@ -17,9 +17,10 @@ document.querySelector('form').addEventListener('submit', function(e) {
 
     emailjs.sendForm('service_disprovesupport', 'template_disprovesupport', this)
         .then(() => {
-            alert('SUCCESS!');
+            alert('Enviado!');
+            location.reload();
         })
         .catch((error) => {
-            alert('FAILED...', error);
+            alert('Hubo un error al enviar el mensaje...', error);
         });
 });
