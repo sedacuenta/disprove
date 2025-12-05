@@ -196,6 +196,7 @@ input:hover {
 video {
     width: 90%;
     height: 90%;
+    margin: 5px;
 }
 
 @keyframes moverTexto {
