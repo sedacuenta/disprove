@@ -175,6 +175,16 @@ input:hover {
     height: 500px;
 }
 
+#video_title {
+    margin: 10px;
+    font-size: 25px;
+}
+
+video {
+    width: 90%;
+    height: 90%;
+}
+
 @keyframes moverTexto {
     from {
         transform: translateX(-900px)
