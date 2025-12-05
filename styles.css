@@ -7,11 +7,12 @@ body {
     font-family: "Segoe UI", sans-serif;
     background: #f5f5f5;
     color: #333;
+    overflow-x: none;
 }
 
 ::selection {
-    background:lightblue;
-    color:lightgreen;
+    background:green;
+    color:lightblue;
 }
 
 /* ENCABEZADO HERO */
@@ -142,4 +143,11 @@ input:hover {
     display: flex;
     flex-direction: column;
     margin: 10px;
+}
+
+#video {
+    background-color: #000000;
+    width: 100%;
+    color: #ffffff;
+    height: 500px;
 }
