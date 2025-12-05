@@ -188,6 +188,7 @@ input:hover {
     color: #ffffff;
     height: 600px;
     padding: 10px;
+    border-radius: 5px;
 }
 
 #video_title {
@@ -199,6 +200,7 @@ video {
     width: 90%;
     height: 90%;
     margin: 5px;
+    border-radius: 5px;
 }
 
 /* FORMULARIO DE CONTACTO */
