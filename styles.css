@@ -37,12 +37,12 @@ header p {
 }
 
 #title_h1 {
-    animation: moverTexto 1.6s ease-in-out;
+    animation: moverTexto 1s ease-in-out;
     color: #ffffff;
 }
 
 #title_p {
-    animation: moverTexto 1.2s ease-in-out;
+    animation: moverTexto 0.8s ease-in-out;
 }
 
 .ver_propuesta {
@@ -98,7 +98,7 @@ a {
 .credentials {
     margin:10px;
     padding:0;
-    animation: moverTexto 0.2s ease-in-out;
+    animation: moverTexto 0.4s ease-in-out;
 }
 
 /* CARDS */
