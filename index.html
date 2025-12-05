@@ -7,6 +7,7 @@
     <title>Dis-prove | Tecnología para todos</title>
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/15189/15189214.png">
     <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=stars" />
 
@@ -105,10 +106,10 @@
         <h2>Contacto</h2>
         <p>Contacta con nosotros para más información</p>
         <form>
-            <input type="text" placeholder="Nombre" required>
-            <input type="email" placeholder="Email" required>
-            <input type="text" placeholder="Asunto" required>
-            <textarea required></textarea>
+            <input type="text" name="name" placeholder="Nombre" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="subject" placeholder="Asunto" required>
+            <textarea name="message" placeholder="Pon tu mensaje aqui..." required></textarea>
             <button type="submit">Enviar</button>
         </form>
     </section>
